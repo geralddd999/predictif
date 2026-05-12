@@ -5,22 +5,149 @@
     <title>Login - Predictif</title>
 </head>
     <body>
-        <div id="title_bar">   </div>
+        <div class="title_bar">   </div>
 
         <div id="login_container">
-            <button class="user_type">Client</button>
-            <button class="user_type">Employe</button>
-
-            <div id="login_form">
-                <label for="email_input">email</label>
-                <input id = "email_input" placeholder="jdupont@predict-if.fr" required>
-
-                <label for="passwd_input"> <b>Password</b>> </label>>
-                <input id="passwd_input" placeholder="password" required>
-
-                <button type="submit">Valider</button>
+            <div class="tabs" role="tablist">
+                <button class="tab active" data-role ="client" role = "tab" aria-selected = "true">Client</button>
+                <button class="tab" data-role = "employe" role = "tab" aria-selected = "false">Employé</button>
             </div>
-        </div>
 
+            <div id = "feedback" class = "feedback" role="alert"></div>
+
+            <div class="field">
+                <label for = "email_input">Adresse email</label>
+                <div class = "input-wrap">
+                    <input id = "email_input" type="email" placeholder ="jdupont@predict-if.fr" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for ="passwd_input">Mot de passe</label>
+                <div class = "passwd-wrap">
+                    <input id = passwd_input type="password" placeholder="mon mdp" required>
+                    <button class="eye-btn" id="toggle_pw" type="button"
+                            aria-label="Afficher / masquer le mot de passe">
+                        <!-- Eye icon (shown when password is hidden) -->
+                        <svg id="icon_show" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7
+                   -1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <!-- Eye-off icon (shown when password is visible) -->
+                        <svg id="icon_hide" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                             style="display:none">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7
+                   a9.956 9.956 0 012.223-3.777M6.707 6.707A9.952 9.952 0 0112 5
+                   c4.477 0 8.268 2.943 9.542 7a9.957 9.957 0 01-1.356 2.58
+                   M3 3l18 18"/>
+                        </svg>
+                    </button>
+
+                </div>
+
+            <button class="submit-btn" id="submit_btn" type="button">
+                <span class="btn-label">Valider</span>
+                <span class="spinner"></span>
+            </button>
+
+        </div>
+        </div>
+        <script>
+            let selectedRole = 'client';
+            document.querySelectorAll('.tab').forEach( tab => {
+                tab.addEventListener('click', ()=>{
+                    document.querySelectorAll('.tab').forEach(t =>{
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                    selectedRole = tab.dataset.role;
+                    clearFeedback();
+                });
+
+            })
+
+            document.getElementById('toggle_pw').addEventListener('click', () => {
+                const input = document.getElementById('passwd_input');
+                const isHidden = input.type === 'password';
+                input.type = isHidden ? 'text' : 'password';
+                document.getElementById('icon_show').style.display = isHidden ? 'none'  : '';
+                document.getElementById('icon_hide').style.display = isHidden ? ''      : 'none';
+            });
+
+
+            function showFeedback(msg, type){
+                const f = document.getElementById('feedback');
+                f.className = `feedback ${type}`;
+                f.textContent = msg;
+            }
+
+            function clearFeedback(){
+                const e = document.getElementById('feedback');
+                e.className = 'feedback';
+                e.textContent = '';
+            }
+
+            // ======== Auth
+            document.getElementById('submit_btn').addEventListener('click', async () => {
+                clearFeedback();
+
+                const email = document.getElementById('email_input').value.trim();
+                const passwd = document.getElementById('passwd_input').value;
+                const btn = document.getElementById('submit_btn');
+
+                if(!email || !passwd){
+                    showFeedback("Veuillez remplir tous les champs.", 'error');
+                    return;
+                }
+
+                btn.classList.add('loading');
+                btn.disabled = true;
+                
+                try{
+                    const response = await fetch(('/ActionServlet?todo=authenticate-'+selectedRole), {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            login_email: email,
+                            password: passwd
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if(data.AUTHENTIFICATION_SUCCESS){
+                        showFeedback("Connexion réussie! Redirection ...", 'success');
+
+                        if(data.redirect){
+                            setTimeout(() => { window.location.href = data.redirect; }, 1000);
+                        }
+                    }else{
+                        showFeedback(data.message || 'Identifiants incorrects.', 'error');
+                    }
+                }catch (e) {
+                    showFeedback('Impossible de contacter le serveur.', 'error');
+                    console.error(e);
+
+                }finally {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                }
+            })
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Enter') document.getElementById('submit_btn').click();
+            });
+
+        </script>
     </body>
 </html>

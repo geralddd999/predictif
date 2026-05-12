@@ -3,6 +3,20 @@
     <head>
         <title>PREDICT'IF</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            function initPage(){
+                document.getElementById("login_btn").addEventListener('click', function(){
+                    console.log("Se connecter")
+                    window.location.href = "login.html"
+                })
+                document.getElementById("register_btn").addEventListener('click', function(){
+                    console.log("Clicked on register")
+                    window.location.href = "register.html"
+                })
+            }
+
+            window.onload = initPage;
+        </script>
     </head>
     <body>
     <div id="top_bar">
