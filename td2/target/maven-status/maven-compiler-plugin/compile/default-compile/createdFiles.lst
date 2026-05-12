@@ -1,0 +1,7 @@
+web\controleur\ActionServlet.class
+web\modele\Action.class
+web\test\ServiceTest.class
+web\vue\DemandesSerialisation.class
+web\vue\Serialisation.class
+web\modele\ConsulterListeDemandesAction.class
+web\test\DemandeTest.class

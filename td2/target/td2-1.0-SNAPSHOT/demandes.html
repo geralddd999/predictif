@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Demandes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <button id="home-btn">Home</button>
+        <h1>Demandes</h1>
+        <button id="bouton-lister-demandes">Lister les demandes</button>
+        <h2>Liste des demandes</h2>
+        <ul id="liste-demandes">
+        </ul>
+        <script>
+            const BASE_URL = 'http://localhost:8080/td2';
+            function initPage() {
+                console.log("Initialisation de la page");
+                document.getElementById('bouton-lister-demandes').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'Lister demandes'");
+                    listerDemandes();
+                });
+                
+                document.getElementById('home-btn').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'Go to Home'");
+                    window.location.href = BASE_URL ;
+                });
+            };
+            
+            async function listerDemandes() {
+                console.log("Appel de l'Action: Consulter liste demandes");
+                let url = BASE_URL + '/ActionServlet?todo=consulter-liste-demande'; // TODO : appeler l'ActionServlet pour lister les demandes
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log('Affichage de la liste de demandes');
+                    // TODO : afficher les demandes
+                    let demandes = jsonResponse.demands;
+                    console.log(demandes);
+                    
+                    let listElem = document.getElementById('liste-demandes');
+                    listElem.innerHTML = "";
+                    demandes.forEach((d) => {
+                        listElem.appendChild(document.createElement("li")).innerHTML = d.id + " - " + d.dateCreation + " - " + d.description;
+                    });
+                }
+            }
+            window.onload = initPage;
+        </script>
+    </body>
+</html>
