@@ -4,13 +4,17 @@
  */
 package web.controleur;
 
+import dao.JpaUtil;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.mycompany.predictif.metier.service.*;
+import web.modele.AuthentificationClientAction;
+import web.modele.AuthentificationEmployeAction;
+import web.modele.LogoutAction;
+import web.vue.AuthentificationSerialisation;
 /**
  *
  * @author gschambiram
@@ -34,8 +38,20 @@ public class ActionServlet extends HttpServlet {
         
         System.out.println(todo);
         switch(todo){
-            case "get-all-bla": {
-                
+            
+            case "authenticate-client" : {
+                new AuthentificationClientAction().execute(request);
+                new AuthentificationSerialisation().appliquer(request, response);
+                break;
+            }
+            case "authenticate-employe" : {
+                new AuthentificationEmployeAction().execute(request);
+                new AuthentificationSerialisation().appliquer(request, response);
+                break;
+            }
+            case "logout" : {
+                new LogoutAction().execute(request);
+                // to-do redirect user to home page
             }
             default: {
                 System.out.println("Invalid request received");
@@ -47,11 +63,13 @@ public class ActionServlet extends HttpServlet {
     @Override
     public void init(){
         // Initializes the EMFactory
+        JpaUtil.creerFabriquePersistance();
     }
     
     @Override
     public void destroy(){
         // Destroys the EMFactory
+        JpaUtil.fermerFabriquePersistance();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
