@@ -18,9 +18,11 @@ public class LogoutAction extends Action {
         HttpSession session = request.getSession(false);
         
         if(session != null) {
-       
             System.out.println("Logged out user");
             session.invalidate();
+            request.setAttribute("logged_out_from_valid_session", true);
+        }else{
+            request.setAttribute("logged_out_from_valid_session", false);
         }
         
         //return to home page 

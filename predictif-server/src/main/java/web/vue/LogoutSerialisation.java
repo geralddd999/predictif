@@ -16,25 +16,24 @@ import metier.modele.Client;
  *
  * @author gschambiram
  */
-public class AuthentificationSerialisation extends Serialisation {
+public class LogoutSerialisation extends Serialisation {
     @Override
     public void  appliquer(HttpServletRequest req, HttpServletResponse res) throws IOException{
         res.setContentType("application/json;charset=UTF-8");
-    
-        var success = (boolean) req.getAttribute("logged_in_user");
-        
-        JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
-        
-        jsonContainer.add("auth_success", success);
-        if(success){
-            jsonContainer.add("redirect", ""); //redirect to after-login window
-        }
 
-        res.setContentType ( "application/json" ); 
+        JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
+        var stat = (boolean) req.getAttribute("logged_out_from_valid_session");
+
+        if(!stat){
+            jsonContainer.add("redirect-error", true);
+        }
+        jsonContainer.add("redirect", "/");
+
+        res.setContentType ( "application/json" );
         res.setCharacterEncoding("UTF-8");
-        
+
         try (PrintWriter out = res.getWriter()){
-            out.println(jsonContainer.build().toString()); 
+            out.println(jsonContainer.build().toString());
         }
     }
 }

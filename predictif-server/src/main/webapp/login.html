@@ -125,7 +125,7 @@
 
                     const data = await response.json();
 
-                    if(data.AUTHENTIFICATION_SUCCESS){
+                    if(data.auth_success){
                         showFeedback("Connexion réussie! Redirection ...", 'success');
 
                         if(data.redirect){
