@@ -54,6 +54,7 @@ public class ActionServlet extends HttpServlet {
                 new LogoutAction().execute(request);
                 new LogoutSerialisation().appliquer(request, response);
                 break;
+
             }
             default: {
                 System.out.println("Invalid request received");
