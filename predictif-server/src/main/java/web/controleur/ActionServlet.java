@@ -15,6 +15,7 @@ import web.modele.AuthentificationClientAction;
 import web.modele.AuthentificationEmployeAction;
 import web.modele.LogoutAction;
 import web.vue.AuthentificationSerialisation;
+import web.vue.LogoutSerialisation;
 /**
  *
  * @author gschambiram
@@ -51,7 +52,8 @@ public class ActionServlet extends HttpServlet {
             }
             case "logout" : {
                 new LogoutAction().execute(request);
-                // to-do redirect user to home page
+                new LogoutSerialisation().appliquer(request, response);
+                break;
             }
             default: {
                 System.out.println("Invalid request received");
