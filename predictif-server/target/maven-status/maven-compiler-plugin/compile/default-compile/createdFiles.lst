@@ -1,0 +1,5 @@
+web\controleur\ActionServlet.class
+web\vue\InscreptionClientSerilisation.class
+web\modele\Action.class
+web\vue\Serialisation.class
+web\modele\InscrirClientAction.class
