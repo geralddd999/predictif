@@ -1,5 +1,7 @@
 web\controleur\ActionServlet.class
-web\vue\InscreptionClientSerilisation.class
 web\modele\Action.class
-web\vue\Serialisation.class
+web\modele\ChargerStatistiquesAction.class
 web\modele\InscrirClientAction.class
+web\vue\InscreptionClientSerilisation.class
+web\vue\StatistiquesSerialisation.class
+web\vue\Serialisation.class

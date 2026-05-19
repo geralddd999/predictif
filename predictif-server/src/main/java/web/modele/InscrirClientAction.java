@@ -15,10 +15,18 @@ public class InscrirClientAction extends Action {
         String genre = request.getParameter("genre");
         String dateNaissanceTexte = request.getParameter("dateNaissance");
         String numTel = request.getParameter("numTel");
-        String adressePostale = request.getParameter("adressePostale");
+        //String adressePostale = request.getParameter("adressePostale");
         String mail = request.getParameter("mail");
         String motDePasse = request.getParameter("motDePasse");
+        
+        String adresse = request.getParameter("adresse");
+        String ville = request.getParameter("ville");
+        String codePostal = request.getParameter("codePostal");
+        String pays = request.getParameter("pays");
 
+        String adressePostale = adresse + ", " + codePostal + " " + ville + ", " + pays;
+        
+        
         System.out.println("Inscription client : " + prenom + " " + nom);
 
         try {

@@ -12,9 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import web.modele.Action;
+import web.modele.ChargerStatistiquesAction;
 import web.modele.InscrirClientAction;
 import web.vue.InscreptionClientSerilisation;
 import web.vue.Serialisation;
+import web.vue.StatistiquesSerialisation;
 /**
  *
  * @author gschambiram
@@ -48,6 +50,11 @@ public class ActionServlet extends HttpServlet {
             default:
                 System.out.println("invalid request ");
                 break;
+            case "charger-statistiques" :
+                action = new ChargerStatistiquesAction();
+                serialisation = new StatistiquesSerialisation();
+                break;
+                
         }
           
             
