@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Inscription Client - PREDICT'IF</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+        <h1>Inscription Client</h1>
+
+        <div>
+            <label>Nom :</label>
+            <input type="text" id="champ-nom">
+        </div>
+
+        <div>
+            <label>Prénom :</label>
+            <input type="text" id="champ-prenom">
+        </div>
+
+        <div>
+            <label>Genre :</label>
+            <select id="champ-genre">
+                <option value="">-- Choisir --</option>
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Date de naissance :</label>
+            <input type="date" id="champ-date-naissance">
+        </div>
+
+        <div>
+            <label>Téléphone :</label>
+            <input type="text" id="champ-num-tel">
+        </div>
+
+        <div>
+            <label>Adresse :</label>
+            <input type="text" id="champ-adresse">
+        </div>
+
+        <div>
+            <label>Code postal :</label>
+            <input type="text" id="champ-code-postal" maxlength="5">
+        </div>
+
+        <div>
+            <label>Ville :</label>
+            <input type="text" id="champ-ville">
+        </div>
+
+        <div>
+            <label>Pays :</label>
+            <input type="text" id="champ-pays">
+        </div>
+
+        <div>
+            <label>Email :</label>
+            <input type="email" id="champ-mail">
+        </div>
+
+        <div>
+            <label>Mot de passe :</label>
+            <input type="password" id="champ-mot-de-passe">
+        </div>
+
+        <br>
+
+        <button id="bouton-inscription">Valider</button>
+
+        <p id="message"></p>
+
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page inscription client");
+
+                document.getElementById("bouton-inscription").addEventListener("click", function () {
+                    console.log("Click sur Valider");
+                    inscrireClient();
+                });
+            }
+
+            async function inscrireClient() {
+                let nom = document.getElementById("champ-nom").value;
+                let prenom = document.getElementById("champ-prenom").value;
+                let genre = document.getElementById("champ-genre").value;
+                let dateNaissance = document.getElementById("champ-date-naissance").value;
+                let numTel = document.getElementById("champ-num-tel").value;
+                let adresse = document.getElementById("champ-adresse").value;
+                let codePostal = document.getElementById("champ-code-postal").value;
+                let ville = document.getElementById("champ-ville").value;
+                let pays = document.getElementById("champ-pays").value;
+                let mail = document.getElementById("champ-mail").value;
+                let motDePasse = document.getElementById("champ-mot-de-passe").value;
+
+                if (
+                    nom === "" || prenom === "" || genre === "" ||
+                    dateNaissance === "" || numTel === "" ||
+                    adresse === "" || codePostal === "" ||
+                    ville === "" || pays === "" ||
+                    mail === "" || motDePasse === ""
+                ) {
+                    document.getElementById("message").textContent = "Tous les champs sont obligatoires.";
+                    return;
+                }
+
+                if (codePostal.length !== 5) {
+                    document.getElementById("message").textContent = "Le code postal doit contenir 5 caractères.";
+                    return;
+                }
+
+                let params = {
+                    todo: "inscrire-client",
+                    nom: nom,
+                    prenom: prenom,
+                    genre: genre,
+                    dateNaissance: dateNaissance,
+                    numTel: numTel,
+                    adresse: adresse,
+                    codePostal: codePostal,
+                    ville: ville,
+                    pays: pays,
+                    mail: mail,
+                    motDePasse: motDePasse
+                };
+
+                let url = "./ActionServlet?" + new URLSearchParams(params);
+
+                console.log("URL appelée :", url);
+
+                let jsonResponse = await fetch(url)
+                    .then(function (httpResponse) {
+                        if (!httpResponse.ok) {
+                            throw "HTTP Error " + httpResponse.status;
+                        }
+                        return httpResponse.json();
+                    })
+                    .catch(function (error) {
+                        console.log("[AJAX ERROR]", error);
+                        return null;
+                    });
+
+                console.log("Réponse JSON :", jsonResponse);
+
+                if (jsonResponse) {
+                    if (jsonResponse.success === true) {
+                        document.getElementById("message").textContent = "Inscription réussie.";
+
+                       
+                        window.location.href = "connexion.html";
+                    } else {
+                        document.getElementById("message").textContent =
+                            jsonResponse.message || "Erreur lors de l'inscription.";
+                    }
+                }
+            }
+
+            window.onload = initPage;
+        </script>
+    </body>
+</html>
