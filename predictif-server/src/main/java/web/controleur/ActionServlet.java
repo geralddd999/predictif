@@ -4,18 +4,21 @@
  */
 package web.controleur;
 
+import dao.JpaUtil;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.mycompany.predictif.metier.service.*;
+import metier.service.Service;
+import web.modele.*;
+import web.vue.*;
 /**
  *
  * @author gschambiram
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/ActionServlet"})
+@WebServlet(name = "ActionServlet", urlPatterns = {"/ActionServlet", "/faire-une-demande"})
 public class ActionServlet extends HttpServlet {
 
     /**
@@ -30,30 +33,83 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        if (request.getServletPath().equals("/faire-une-demande")) {
+            request.getRequestDispatcher("faire-une-demande.html").forward(request, response);
+            return;
+        }
+        
         String todo = request.getParameter("todo");
         
         System.out.println(todo);
         switch(todo){
-            case "get-all-bla": {
-                
+            case "lister-mediums": {
+                // 1. On prépare les données via l'Action
+                Action action = new AfficherListeMedium();
+                action.execute(request); 
+
+                // transforme ces données en JSON via la Sérialisation
+                Serialisation serialisation = new MediumsSerialisation();
+                serialisation.appliquer(request, response);
+                break;
             }
+            case "obtenir-profil-client": {
+                Action action = new ObtenirProfilClientAction();
+                action.execute(request);
+
+                Serialisation serialisation = new ProfilClientSerialisation();
+                serialisation.appliquer(request, response);
+                break;
+            }
+            
+            case "creer-rdv": {
+                Action action = new CreerRDVAction();
+                action.execute(request);
+
+                Serialisation serialisation = new CreerRDVSerialisation();
+                serialisation.appliquer(request, response);
+                break;
+            }
+            
             default: {
-                System.out.println("Invalid request received");
+                System.out.println("Invalid request received: " + todo);
                 break;
             }
         }
     }
-    
+
     @Override
-    public void init(){
-        // Initializes the EMFactory
-    }
-    
-    @Override
-    public void destroy(){
-        // Destroys the EMFactory
+    public void init() throws ServletException {
+        super.init();
+        JpaUtil.creerFabriquePersistance();
     }
 
+    @Override
+    public void destroy() {
+        JpaUtil.fermerFabriquePersistance();
+        super.destroy(); 
+    }
+    
+    
+    
+//    @Override
+//    public void init() throws ServletException {
+//        // 1. Initialisation de la persistence (EMFactory)
+//        JpaUtil.creerFabriquePersistance();
+//
+////        // 2. Appel des services d'initialisation des données
+////        Service service = new Service();
+////
+////        // Remplit la base avec les médiums (Serena, Mme Irma, etc.)
+////        service.initialiserMediums(); 
+////
+////        // Remplit la base avec les employés de test
+////        service.initialiserEmploye(); 
+//    }
+//
+//@Override
+//public void destroy() {
+//    JpaUtil.fermerFabriquePersistance(); 
+//}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

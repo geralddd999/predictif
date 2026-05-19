@@ -184,4 +184,8 @@ public class JpaUtil {
         log("Obtention du contexte de persistance");
         return threadLocalEntityManager.get();
     }
+
+    public static void destroy() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
