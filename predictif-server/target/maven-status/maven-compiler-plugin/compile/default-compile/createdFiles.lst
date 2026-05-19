@@ -5,3 +5,4 @@ web\vue\AuthentificationSerialisation.class
 web\modele\Action.class
 web\modele\LogoutAction.class
 web\vue\Serialisation.class
+web\vue\LogoutSerialisation.class

@@ -50,6 +50,9 @@ public class ActionServlet extends HttpServlet {
                 new AuthentificationSerialisation().appliquer(request, response);
                 break;
             }
+            case "get-current-rdv" : {
+                break;
+            }
             case "logout" : {
                 new LogoutAction().execute(request);
                 new LogoutSerialisation().appliquer(request, response);

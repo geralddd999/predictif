@@ -254,7 +254,7 @@ public class Service {
                 rdv.setMedium(m);
                 emp.setDisponible(0);
                 c.addRDV(rdv);
-                emp.addRDV(rdv);
+                    emp.addRDV(rdv);
                 System.out.println("RDV : "+ rdv);
                 
                 JpaUtil.ouvrirTransaction();
