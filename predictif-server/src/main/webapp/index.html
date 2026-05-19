@@ -1,39 +1,49 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>PREDICT'IF</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script>
-            function initPage(){
-                document.getElementById("login_btn").addEventListener('click', function(){
-                    console.log("Se connecter")
-                    window.location.href = "login.html"
-                })
-                document.getElementById("register_btn").addEventListener('click', function(){
-                    console.log("Clicked on register")
-                    window.location.href = "register.html"
-                })
-            }
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREDICT'IF</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" defer></script>
+</head>
+<body>
+<header id="top_bar">
+    <div id="logo">
+        <span class="logo-dot"></span>
+        <b>PREDICT'IF</b>
+    </div>
+    <nav id="nav-actions">
+        <button id="register_btn" class="btn btn-link">S'inscrire</button>
+        <button id="login_btn" class="btn btn-primary">Se connecter</button>
+    </nav>
+</header>
 
-            window.onload = initPage;
-        </script>
-    </head>
-    <body>
-    <div id="top_bar">
-        <div id="left">
-            PREDICT'IF
+<main>
+    <h1 id="title">
+        PREDICT'IF
+    </h1>
+
+    <section id="content">
+        <p>Besoin d'éclairer votre chemin ? Que vous vous posiez des questions sur votre vie sentimentale, votre santé ou votre carrière, le cabinet <b>PREDICT'IF</b> met à votre disposition une équipe de médiums reconnus internationalement pour leur sérieux et leur honnêteté à travers nos trois spécialités :</p>
+        <ul>
+            <li><b>Spiritisme</b> : Dialoguez avec des spécialistes des grandes conversations au-delà des frontières.</li>
+            <li><b>Cartomancie</b> : Comprenez votre entourage grâce à la précision du tirage des cartes.</li>
+            <li><b>Astrologie</b> : Découvrez ce que les astres révèlent sur votre passé et votre futur.</li>
+        </ul>
+    </section>
+
+    <h2 id="medium-title">Découvrez nos médiums</h2>
+
+    <section id="carousel">
+        <button class="carousel-arrow" id="prev-btn" aria-label="Précédent">&#10094;</button>
+        <div class="carousel-viewport">
+            <div id="medium-carousel-container" class="carousel-track">
+
+            </div>
         </div>
-        <div id = "right">
-            <button id="register_btn">S'inscrire</button>
-            <button id="login_btn">Se connecter</button>
-        </div>
-    </div>
-    <div id="content">
-        <p>Besoin d'eclairer ....</p>
-    </div>
-    <h2 id="medium-title">Decouvrez nos mediums</h2>
-    <div id="mediums_showcase">
-        <p>fuckass mediums yo!</p>
-    </div>
-    </body>
+        <button class="carousel-arrow" id="next-btn" aria-label="Suivant">&#10095;</button>
+    </section>
+</main>
+</body>
 </html>
