@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - PREDICT'IF</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
+</head>
+<body>
+<header class="title_bar">
+    <a href="index.html" id="logo">
+        <span class="logo-dot"></span>
+        <span class="logo-text">PREDICT'IF</span>
+    </a>
+</header>
+
+<main id="login_container">
+    <div class="tabs" role="tablist">
+        <button class="tab active" data-role="client" role="tab" aria-selected="true">Client</button>
+        <button class="tab" data-role="employe" role="tab" aria-selected="false">Employé</button>
+    </div>
+
+    <div id="feedback" class="feedback" role="alert"></div>
+
+    <div class="field">
+        <label for="email_input">Adresse mail</label>
+        <div class="input-wrap">
+            <input id="email_input" type="email" placeholder="jdupont@predict-if.fr" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="passwd_input">Mot de passe</label>
+        <div class="passwd-wrap">
+            <input id="passwd_input" type="password" placeholder="mon mdp" required>
+            <button class="eye-btn" id="toggle_pw" type="button"
+                    aria-label="Afficher / masquer le mot de passe">
+                <svg id="icon_show" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7
+                                 -1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg id="icon_hide" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                     style="display:none">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7
+                                 a9.956 9.956 0 012.223-3.777M6.707 6.707A9.952 9.952 0 0112 5
+                                 c4.477 0 8.268 2.943 9.542 7a9.957 9.957 0 01-1.356 2.58
+                                 M3 3l18 18"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <button class="submit-btn" id="submit_btn" type="button">
+        <span class="btn-label">Valider</span>
+        <span class="spinner"></span>
+    </button>
+</main>
+</body>
+</html>

@@ -1,0 +1,7 @@
+web\modele\AuthentificationEmployeAction.class
+web\controleur\ActionServlet.class
+web\modele\AuthentificationClientAction.class
+web\vue\AuthentificationSerialisation.class
+web\modele\Action.class
+web\modele\LogoutAction.class
+web\vue\Serialisation.class
