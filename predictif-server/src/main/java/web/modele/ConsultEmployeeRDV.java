@@ -31,7 +31,7 @@ public class ConsultEmployeeRDV extends Action {
             return;
         }
         
-        if(!"employe".equals(session.getAttribute("user_type"))){
+        if(!"employee".equals(session.getAttribute("user_type"))){
             req.setAttribute("user_logged_in", false);
             return;
         }
