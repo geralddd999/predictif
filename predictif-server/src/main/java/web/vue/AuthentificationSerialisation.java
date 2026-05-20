@@ -8,6 +8,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import metier.modele.Client;
@@ -27,8 +29,9 @@ public class AuthentificationSerialisation extends Serialisation {
         
         jsonContainer.add("auth_success", success);
         if(success){
-            String user_type = (String) req.getAttribute("user_type");
-            jsonContainer.add("redirect", "/"+user_type+"-home-page"); //redirect to after-login window
+            HttpSession session = req.getSession();
+            String user_type = (String) session.getAttribute("user_type");
+            jsonContainer.add("redirect", "/predictif-server/"+user_type+"-home-page"); //redirect to after-login window
         }
 
         res.setContentType ( "application/json" ); 

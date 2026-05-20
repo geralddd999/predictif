@@ -12,11 +12,23 @@ async function initPage(){
     const client_history = data.client_history;
     const medium = data.medium;
 
+    const main_container = document.getElementById("main-content");
+
     if(!astral_profile || !client_history || !medium){
       console.warn('No active RDV found');
+      
+      main_container.innerHTML = '';
+      const feedback_container = document.createElement("div");
+      const msg = document.createElement('p');
+      msg.innerText = "No active RDV found";
+      feedback_container.appendChild(msg);
       return;
     }
 
+    const main_title = document.createElement('h1');
+    main_title.innerText = "Votre rendez-vous en cours";
+    main_container.appendChild(main_title);
+    
     populateClientHistory(client_history);
     populateMedium(medium);
     populateAstralProfile(astral_profile);

@@ -36,7 +36,7 @@ public class AuthentificationEmployeAction extends Action {
         if(e != null){
             HttpSession session = req.getSession();
             session.setAttribute("user", e);
-            session.setAttribute("user_type", "employe");
+            session.setAttribute("user_type", "employee");
             success = true;
         }else{
             req.setAttribute("error", "Authentification failed : Invalid Credentials");

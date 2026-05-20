@@ -68,7 +68,7 @@ public class ConsultEmployeeSerialisation extends Serialisation {
         }
         else{
             jsonContainer.add("error", "Forbidden Access, you need to be logged-in");
-            jsonContainer.add("redirect", "/index.html");
+            jsonContainer.add("redirect", "/predictif-server/index.html");
             return;
         }
 
