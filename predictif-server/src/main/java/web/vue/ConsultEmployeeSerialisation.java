@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.List;
 import metier.modele.Medium;
 import metier.modele.ProfilAstral;
@@ -25,7 +24,7 @@ public class ConsultEmployeeSerialisation extends Serialisation {
     public void  appliquer(HttpServletRequest req, HttpServletResponse res) throws IOException{
         res.setContentType("application/json;charset=UTF-8");
     
-        var is_logged_in = (boolean) req.getAttribute("logged_in_user");
+        boolean is_logged_in = (boolean) req.getAttribute("user_logged_in");
         
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
         
@@ -35,13 +34,15 @@ public class ConsultEmployeeSerialisation extends Serialisation {
             if(rdv != null){
                 var client_history = Json.createArrayBuilder();
                 var chl = (List<RDV>) req.getAttribute("client_history");
-                for(var h : chl){
-                    // r represents a individual rdv inside the clients history
-                    JsonObjectBuilder r = Json.createObjectBuilder();
-                    r.add("medium_name", h.getMedium().getDenomination());
-                    r.add("medium_type", h.getMedium().getClass().toString()); //to change to its type
-                    r.add("date", h.getDateRDV().toString());
-                    client_history.add(r);
+                if(chl != null){
+                    for(var h : chl){
+                        // r represents a individual rdv inside the clients history
+                        JsonObjectBuilder r = Json.createObjectBuilder();
+                        r.add("medium_name", h.getMedium().getDenomination());
+                        r.add("medium_type", h.getMedium().getClass().getSimpleName());
+                        r.add("date", h.getDateRDV().toString());
+                        client_history.add(r);
+                    }
                 }
                 
                 var client_astral_profile = Json.createObjectBuilder();
@@ -56,7 +57,7 @@ public class ConsultEmployeeSerialisation extends Serialisation {
                 medium.add("name", m.getDenomination());
                 medium.add("gender", m.getGenre());
                 medium.add("presentation", m.getPresentation());
-                medium.add("type",m.getClass().toString());
+                medium.add("type", m.getClass().getSimpleName());
                 
                 //append to json
                 jsonContainer.add("client_history", client_history);
@@ -66,6 +67,8 @@ public class ConsultEmployeeSerialisation extends Serialisation {
             }
         }
         else{
+            jsonContainer.add("error", "Forbidden Access, you need to be logged-in");
+            jsonContainer.add("redirect", "/index.html");
             return;
         }
 

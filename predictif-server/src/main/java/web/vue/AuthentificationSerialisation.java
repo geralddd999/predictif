@@ -27,7 +27,8 @@ public class AuthentificationSerialisation extends Serialisation {
         
         jsonContainer.add("auth_success", success);
         if(success){
-            jsonContainer.add("redirect", ""); //redirect to after-login window
+            String user_type = (String) req.getAttribute("user_type");
+            jsonContainer.add("redirect", "/"+user_type+"-home-page"); //redirect to after-login window
         }
 
         res.setContentType ( "application/json" ); 

@@ -21,12 +21,10 @@ public class OperationStatusSerialisation extends Serialisation {
         res.setContentType("application/json;charset=UTF-8");
 
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
-        var stat = (boolean) req.getAttribute("logged_out_from_valid_session");
+        boolean status = (boolean) req.getAttribute("op_success");
 
-        if(!stat){
-            jsonContainer.add("redirect-error", true);
-        }
-        jsonContainer.add("redirect", "/");
+        
+        jsonContainer.add("op_success", status);
 
         res.setContentType ( "application/json" );
         res.setCharacterEncoding("UTF-8");

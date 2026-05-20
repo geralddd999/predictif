@@ -43,7 +43,7 @@ public class AuthentificationEmployeAction extends Action {
         }
         req.setAttribute("logged_in_user", success);
         
-        System.out.println(null != "Log-in attempt for user:" + mail + ",got: " + e ? "SUCCESSFULL" : "FAILED");
+        System.out.println("Log-in attempt for user:" + mail + ",got: " + (e != null ? "SUCCESSFULL" : "FAILED"));
         
     }
 }

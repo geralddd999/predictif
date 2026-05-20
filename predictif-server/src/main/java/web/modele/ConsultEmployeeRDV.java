@@ -31,12 +31,22 @@ public class ConsultEmployeeRDV extends Action {
             return;
         }
         
+        if(!"employe".equals(session.getAttribute("user_type"))){
+            req.setAttribute("user_logged_in", false);
+            return;
+        }
         req.setAttribute("user_logged_in", true);
-        Long id = ((Employe)session.getAttribute("user")).getId();
-        
-        // done this to get the most up to date emp data so if a rdv gets added when the 
-        // employee is logged it it gets registered on refresh.
-        Employe emp = service.trouverEmployeParId(id);
+        Long id = ((Employe) session.getAttribute("user")).getId();
+
+        // fetch fresh data so RDVs added while the employee is logged in appear on refresh
+        Employe emp;
+        try{
+            emp = service.trouverEmployeParId(id);
+        }catch(Exception e){
+            System.err.println("Error fetching employee: " + e.getMessage());
+            e.printStackTrace();
+            return;
+        }
         
         if(emp != null){
             
@@ -50,8 +60,14 @@ public class ConsultEmployeeRDV extends Action {
                 
                 var medium = rdv.getMedium();
                 req.setAttribute("medium",medium); 
-                var client_history = service.listerRDVClient(c);
-                req.setAttribute("client_history", client_history);
+                req.setAttribute("client_history", null);
+                try{
+                    var client_history = service.listerRDVClient(c);
+                    req.setAttribute("client_history", client_history);
+                }catch(Exception e){
+                    System.err.println("Error fetching client history: " + e.getMessage());
+                    e.printStackTrace();
+                }
                 var astral_profile = c.getProfilAstral();
                 req.setAttribute("astral_profile", astral_profile);
             }

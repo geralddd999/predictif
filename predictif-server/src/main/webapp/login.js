@@ -65,7 +65,7 @@ async function handleSubmit() {
     try {
         let params = {
             login_mail: email,
-                password: passwd
+            password: passwd
         };
         
         let url = '/predictif-server/ActionServlet?todo=authenticate-' + selectedRole + '&'+new URLSearchParams(params);

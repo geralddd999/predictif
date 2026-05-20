@@ -13,9 +13,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import web.modele.AuthentificationClientAction;
 import web.modele.AuthentificationEmployeAction;
+import web.modele.ConsultEmployeeRDV;
 import web.modele.LogoutAction;
+import web.modele.StartRDVAction;
 import web.vue.AuthentificationSerialisation;
+import web.vue.ConsultEmployeeSerialisation;
 import web.vue.LogoutSerialisation;
+import web.vue.OperationStatusSerialisation;
 /**
  *
  * @author gschambiram
@@ -50,7 +54,14 @@ public class ActionServlet extends HttpServlet {
                 new AuthentificationSerialisation().appliquer(request, response);
                 break;
             }
-            case "get-current-rdv" : {
+            case "start-current-rdv" : {
+                new StartRDVAction().execute(request);
+                new OperationStatusSerialisation().appliquer(request, response);
+                break;
+            }
+            case "consult-employee-rdv" : {
+                new ConsultEmployeeRDV().execute(request);
+                new ConsultEmployeeSerialisation().appliquer(request, response);
                 break;
             }
             case "logout" : {

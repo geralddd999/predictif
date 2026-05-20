@@ -22,22 +22,25 @@ public class StartRDVAction extends Action {
     
     @Override
     public void execute(HttpServletRequest req){
+        req.setAttribute("op_success", false);
+
         HttpSession session = req.getSession(false);
         if(session == null){
-            //add error in the serialization
             req.setAttribute("user_logged_in", false);
             return;
         }
-        
+
         var rdv = (RDV) session.getAttribute("rdv");
-        
         if(rdv == null){
-            return; // other things to change
+            return;
         }
-        
-        boolean success = service.commencerRDV(rdv);
-        
-        req.setAttribute("start_rdv_success", success);
-        
+
+        try{
+            boolean success = service.commencerRDV(rdv);
+            req.setAttribute("op_success", success);
+        }catch(Exception e){
+            System.err.println("Error starting RDV: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
