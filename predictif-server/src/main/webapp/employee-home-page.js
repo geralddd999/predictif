@@ -48,10 +48,7 @@ function renderPrepStage() {
   main.className = 'main-content stage-prep';
   main.innerHTML = '';
 
-  const title = document.createElement('h1');
-  title.id = 'page-title';
-  title.textContent = 'Votre rendez-vous';
-  main.appendChild(title);
+  document.getElementById('page-title').textContent = 'Votre rendez-vous';
 
   const grid = document.createElement('div');
   grid.id = 'cards-grid';
@@ -73,10 +70,7 @@ function renderMeetingStage() {
   main.className = 'main-content stage-meeting';
   main.innerHTML = '';
 
-  const title = document.createElement('h1');
-  title.id = 'page-title';
-  title.textContent = 'Rendez-vous en cours';
-  main.appendChild(title);
+  document.getElementById('page-title').textContent = 'Rendez-vous en cours';
 
   const grid = document.createElement('div');
   grid.id = 'cards-grid';
