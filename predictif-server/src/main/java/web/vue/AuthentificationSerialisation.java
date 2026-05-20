@@ -31,7 +31,7 @@ public class AuthentificationSerialisation extends Serialisation {
         if(success){
             HttpSession session = req.getSession();
             String user_type = (String) session.getAttribute("user_type");
-            jsonContainer.add("redirect", "/predictif-server/"+user_type+"-home-page"); //redirect to after-login window
+            jsonContainer.add("redirect", "/predictif-server/"+user_type+"-home-page.html"); //redirect to after-login window
         }
 
         res.setContentType ( "application/json" ); 
