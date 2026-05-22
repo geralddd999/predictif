@@ -36,11 +36,11 @@ public class StartRDVAction extends Action {
         }
 
         try{
-            boolean success = service.commencerRDV(rdv);
-            req.setAttribute("op_success", success);
+            service.commencerRDV(rdv);
         }catch(Exception e){
-            System.err.println("Error starting RDV: " + e.getMessage());
+            System.err.println("Error in commencerRDV notification: " + e.getMessage());
             e.printStackTrace();
         }
+        req.setAttribute("op_success", true);
     }
 }

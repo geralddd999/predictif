@@ -303,7 +303,9 @@ public class Service {
             Client c = rdv.getClient();
             Employe emp = rdv.getEmploye();
             Medium m = rdv.getMedium();
-            String message = "Bonjour " + c.getPrenom() +". J'ai bien reçu votre demande de consultation du " + rdv.getDateDemandeRDV() + " à " + rdv.getHeureDemandeRDV().getHour()+ "h"+rdv.getHeureDemandeRDV().getMinute()+ ".";
+            java.time.LocalTime t = rdv.getHeureDemandeRDV();
+            String heureStr = (t != null) ? t.getHour() + "h" + t.getMinute() : "à l'heure convenue";
+            String message = "Bonjour " + c.getPrenom() +". J'ai bien reçu votre demande de consultation du " + rdv.getDateDemandeRDV() + " " + heureStr + ".";
             message += "Vous pouvez dès à présent me contacter au " + emp.getNumTel() + ". A tout de suite !\nMédiumiquement vôtre, " + m.getDenomination();
             
             envoyerNotification(c.getNumTel(), message);
