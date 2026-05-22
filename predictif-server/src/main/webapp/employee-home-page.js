@@ -1,5 +1,15 @@
 let pageData = null;
 
+function setPageTitle(text) {
+  let el = document.getElementById('page-title');
+  if (!el) {
+    el = document.createElement('h1');
+    el.id = 'page-title';
+    const main = document.getElementById('main-content');
+    main.parentNode.insertBefore(el, main);
+  }
+  el.textContent = text;
+}
 
 async function initPage() {
   try {
@@ -48,7 +58,7 @@ function renderPrepStage() {
   main.className = 'main-content stage-prep';
   main.innerHTML = '';
 
-  document.getElementById('page-title').textContent = 'Votre rendez-vous';
+  setPageTitle('Votre rendez-vous');
 
   const grid = document.createElement('div');
   grid.id = 'cards-grid';
@@ -70,7 +80,7 @@ function renderMeetingStage() {
   main.className = 'main-content stage-meeting';
   main.innerHTML = '';
 
-  document.getElementById('page-title').textContent = 'Rendez-vous en cours';
+  setPageTitle('Rendez-vous en cours');
 
   const grid = document.createElement('div');
   grid.id = 'cards-grid';
