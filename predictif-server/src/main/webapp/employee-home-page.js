@@ -359,7 +359,7 @@ async function fetchSuggestions() {
     const res = await fetch(url);
     const data = await res.json();
 
-    if (!data || data.error) {
+    if (!data || !data.operation_allowed || !data.predictions?.length) {
       if (placeholder) placeholder.textContent = "Impossible d'obtenir les conseils.";
       return;
     }
@@ -367,19 +367,14 @@ async function fetchSuggestions() {
     if (placeholder) placeholder.style.display = 'none';
     content.innerHTML = '';
 
-    for (const [key, value] of Object.entries(data)) {
+    for (const prediction of data.predictions) {
       const section = document.createElement('div');
       section.className = 'suggestion-section';
 
-      const sTitle = document.createElement('h3');
-      sTitle.className = 'suggestion-title';
-      sTitle.textContent = key;
-
       const sText = document.createElement('p');
       sText.className = 'suggestion-text';
-      sText.textContent = value;
+      sText.textContent = prediction;
 
-      section.appendChild(sTitle);
       section.appendChild(sText);
       content.appendChild(section);
     }
@@ -427,17 +422,26 @@ function showFinishPopup() {
 
 async function finishMeeting(comment) {
   try {
-    const url = '/predictif-server/ActionServlet?todo=add-comment&'
+    const commentUrl = '/predictif-server/ActionServlet?todo=add-comment-to-rdv&'
       + new URLSearchParams({ employee_comment: comment });
-    const res = await fetch(url);
-    const data = await res.json();
+    const commentRes = await fetch(commentUrl);
+    const commentData = await commentRes.json();
 
-    if (data.op_success) {
-      document.getElementById('finish-popup')?.remove();
-      if (data.redirect) window.location.href = data.redirect;
-    } else {
-      console.error('Failed to finish meeting:', data);
+    if (!commentData.op_success) {
+      console.error('Failed to save comment:', commentData);
+      return;
     }
+
+    const closeRes = await fetch('/predictif-server/ActionServlet?todo=close-rdv');
+    const closeData = await closeRes.json();
+
+    if (!closeData.op_success) {
+      console.error('Failed to close RDV:', closeData);
+      return;
+    }
+
+    document.getElementById('finish-popup')?.remove();
+    initPage();
   } catch (e) {
     console.error('Failed to finish meeting', e);
   }
