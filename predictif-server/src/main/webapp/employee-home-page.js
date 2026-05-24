@@ -17,6 +17,7 @@ async function initPage() {
     const data = await res.json();
 
     if (data.error) {
+      // to change
       if (data.redirect) window.location.href = data.redirect;
       return;
     }
@@ -94,7 +95,7 @@ function renderMeetingStage() {
   const btn = document.getElementById('start-rdv-btn');
   btn.textContent = 'Fin du rendez-vous';
   btn.className = 'btn btn-primary btn-action';
-  btn.onclick = showFinishPopup;
+  btn.onclick = closeRDV;
 }
 
 
@@ -346,6 +347,7 @@ async function startMeeting() {
     if (data.op_success) {
       renderMeetingStage();
     } else {
+      alert("Failed to start meeting");
       console.error('Failed to start meeting:', data);
     }
   } catch (e) {
@@ -393,7 +395,21 @@ async function fetchSuggestions() {
   }
 }
 
-function showFinishPopup() {
+async function closeRDV() {
+  try {
+    const res = await fetch('/predictif-server/ActionServlet?todo=close-rdv');
+    const data = await res.json();
+    if (data.op_success) {
+      showCommentPopup();
+    } else {
+      console.error('Failed to close RDV:', data);
+    }
+  } catch (e) {
+    console.error('Failed to close RDV', e);
+  }
+}
+
+function showCommentPopup() {
   document.getElementById('finish-popup')?.remove();
 
   const overlay = document.createElement('div');
@@ -416,44 +432,44 @@ function showFinishPopup() {
   textarea.className = 'popup-textarea';
   textarea.placeholder = "Le rendez-vous s'est très bien passé...";
 
+  const errorMsg = document.createElement('p');
+  errorMsg.id = 'popup-error';
+  errorMsg.className = 'popup-error';
+  errorMsg.style.display = 'none';
+  errorMsg.textContent = "Erreur lors de l'enregistrement du commentaire. Veuillez réessayer.";
+
   const validateBtn = document.createElement('button');
   validateBtn.id = 'popup-validate-btn';
   validateBtn.className = 'btn btn-primary';
   validateBtn.textContent = 'Valider';
-  validateBtn.addEventListener('click', () => finishMeeting(textarea.value));
+  validateBtn.addEventListener('click', () => submitComment(textarea.value, errorMsg));
 
   box.appendChild(title);
   box.appendChild(subtitle);
   box.appendChild(textarea);
+  box.appendChild(errorMsg);
   box.appendChild(validateBtn);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
 }
 
-async function finishMeeting(comment) {
+async function submitComment(comment, errorEl) {
   try {
-    const commentUrl = '/predictif-server/ActionServlet?todo=add-comment-to-rdv&'
+    const url = '/predictif-server/ActionServlet?todo=add-comment-to-rdv&'
       + new URLSearchParams({ employee_comment: comment });
-    const commentRes = await fetch(commentUrl);
-    const commentData = await commentRes.json();
+    const res = await fetch(url);
+    const data = await res.json();
 
-    if (!commentData.op_success) {
-      console.error('Failed to save comment:', commentData);
-      return;
-    }
-
-    const closeRes = await fetch('/predictif-server/ActionServlet?todo=close-rdv');
-    const closeData = await closeRes.json();
-
-    if (!closeData.op_success) {
-      console.error('Failed to close RDV:', closeData);
+    if (!data.op_success) {
+      errorEl.style.display = '';
       return;
     }
 
     document.getElementById('finish-popup')?.remove();
     initPage();
   } catch (e) {
-    console.error('Failed to finish meeting', e);
+    console.error('Failed to submit comment', e);
+    if (errorEl) errorEl.style.display = '';
   }
 }
 

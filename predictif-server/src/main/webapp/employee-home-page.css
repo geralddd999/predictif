@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, sans-serif;
-  color: #2b2b2b;
+  color: #ffffff ; /*previous #2b2b2b*/
   min-height: 100vh;
   background: #ffb84a center / cover no-repeat fixed;
   overflow-x: hidden;
@@ -339,4 +339,15 @@ body {
   font-size: 0.93rem;
   resize: vertical;
   background: #fff;
+}
+
+.popup-error {
+  color: #c0392b;
+  background: #fdecea;
+  border: 1px solid #e74c3c;
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.88rem;
+  text-align: center;
+  width: 100%;
 }
