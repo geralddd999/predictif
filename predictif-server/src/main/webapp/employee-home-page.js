@@ -114,13 +114,16 @@ function buildAstralCard(data) {
 
   const left = document.createElement('div');
   left.className = 'astral-col';
-  left.appendChild(buildAstralRow('Signe du zodiaque', data.zodiac_sign));
-  left.appendChild(buildAstralRow('Signe astrologique chinois', data.ch_sign));
+  left.appendChild(buildAstralRow('Signe du zodiaque', data.zodiac_sign,
+    '/predictif-server/img/signes_astro/' + encodeURIComponent(data.zodiac_sign.toLowerCase()) + '.png'));
+  left.appendChild(buildAstralRow('Signe astrologique chinois', data.ch_sign,
+    '/predictif-server/img/signes_astro_cn/' + encodeURIComponent(data.ch_sign.toLowerCase()) + '.png'));
 
   const right = document.createElement('div');
   right.className = 'astral-col';
   right.appendChild(buildColorRow(data.color));
-  right.appendChild(buildAstralRow('Votre animal totem', data.animal));
+  right.appendChild(buildAstralRow('Votre animal totem', data.animal,
+    '/predictif-server/img/signes_astro_cn/' + encodeURIComponent(data.animal.toLowerCase()) + '.png'));
 
   inner.appendChild(left);
   inner.appendChild(right);
@@ -128,7 +131,7 @@ function buildAstralCard(data) {
   return card;
 }
 
-function buildAstralRow(label, value) {
+function buildAstralRow(label, value, imgSrc) {
   const row = document.createElement('div');
   row.className = 'astral-row';
 
@@ -136,17 +139,20 @@ function buildAstralRow(label, value) {
   lbl.className = 'astral-label';
   lbl.textContent = label;
 
-  const img = document.createElement('img');
-  img.className = 'astral-img';
-  img.src = ''; // TODO: set image path once assets are available
-  img.alt = value;
-
   const val = document.createElement('span');
   val.className = 'astral-value';
   val.textContent = value;
 
   row.appendChild(lbl);
-  row.appendChild(img);
+
+  if (imgSrc) {
+    const img = document.createElement('img');
+    img.className = 'astral-img';
+    img.src = imgSrc;
+    img.alt = value;
+    row.appendChild(img);
+  }
+
   row.appendChild(val);
   return row;
 }
@@ -231,7 +237,7 @@ function buildMediumCard(data) {
   const img = document.createElement('img');
   img.id = 'medium-img';
   img.className = 'medium-img';
-  img.src = ''; // TODO: set image path once assets are available
+  img.src = '/predictif-server/img/mediums/' + encodeURIComponent(data.name) + '.png';
   img.alt = data.name;
 
   const info = document.createElement('div');
