@@ -36,14 +36,14 @@ public class AuthentificationEmployeAction extends Action {
         if(e != null){
             HttpSession session = req.getSession();
             session.setAttribute("user", e);
-            session.setAttribute("user_type", "employe");
+            session.setAttribute("user_type", "employee");
             success = true;
         }else{
             req.setAttribute("error", "Authentification failed : Invalid Credentials");
         }
         req.setAttribute("logged_in_user", success);
         
-        System.out.println(null != "Log-in attempt for user:" + mail + ",got: " + e ? "SUCCESSFULL" : "FAILED");
+        System.out.println("Log-in attempt for user:" + mail + ",got: " + (e != null ? "SUCCESSFULL" : "FAILED"));
         
     }
 }

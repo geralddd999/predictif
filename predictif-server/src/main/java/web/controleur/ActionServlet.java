@@ -11,11 +11,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import web.modele.AddCommentToRDVAction;
 import web.modele.AuthentificationClientAction;
 import web.modele.AuthentificationEmployeAction;
+import web.modele.CloseRDVAction;
+import web.modele.ConsultEmployeeRDV;
+import web.modele.GetPredictionsAction;
 import web.modele.LogoutAction;
+import web.modele.StartRDVAction;
 import web.vue.AuthentificationSerialisation;
+import web.vue.ConsultEmployeeSerialisation;
 import web.vue.LogoutSerialisation;
+import web.vue.OperationStatusSerialisation;
+import web.vue.PredictionsSerialisation;
 /**
  *
  * @author gschambiram
@@ -48,6 +56,31 @@ public class ActionServlet extends HttpServlet {
             case "authenticate-employe" : {
                 new AuthentificationEmployeAction().execute(request);
                 new AuthentificationSerialisation().appliquer(request, response);
+                break;
+            }
+            case "start-current-rdv" : {
+                new StartRDVAction().execute(request);
+                new OperationStatusSerialisation().appliquer(request, response);
+                break;
+            }
+            case "consult-employee-rdv" : {
+                new ConsultEmployeeRDV().execute(request);
+                new ConsultEmployeeSerialisation().appliquer(request, response);
+                break;
+            }
+            case "get-predictions" : {
+                new GetPredictionsAction().execute(request);
+                new PredictionsSerialisation().appliquer(request, response);
+                break;
+            }
+            case "close-rdv" : {
+                new CloseRDVAction().execute(request);
+                new OperationStatusSerialisation().appliquer(request, response);
+                break;
+            }
+            case "add-comment-to-rdv" : {
+                new AddCommentToRDVAction().execute(request);
+                new OperationStatusSerialisation().appliquer(request, response);
                 break;
             }
             case "logout" : {

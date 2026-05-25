@@ -1,7 +1,12 @@
+web\vue\OperationStatusSerialisation.class
+web\modele\StartRDVAction.class
 web\modele\AuthentificationEmployeAction.class
 web\controleur\ActionServlet.class
 web\modele\AuthentificationClientAction.class
 web\vue\AuthentificationSerialisation.class
+web\vue\ConsultEmployeeSerialisation.class
 web\modele\Action.class
+web\modele\ConsultEmployeeRDV.class
 web\modele\LogoutAction.class
 web\vue\Serialisation.class
+web\vue\LogoutSerialisation.class

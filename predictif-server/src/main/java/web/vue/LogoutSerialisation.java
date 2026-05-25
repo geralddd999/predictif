@@ -27,7 +27,7 @@ public class LogoutSerialisation extends Serialisation {
         if(!stat){
             jsonContainer.add("redirect-error", true);
         }
-        jsonContainer.add("redirect", "/");
+        jsonContainer.add("redirect", "/predictif-server/");
 
         res.setContentType ( "application/json" );
         res.setCharacterEncoding("UTF-8");
