@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict'IF - Prendre Rendez-vous</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcd645;
+            background-image: url('Fond fenêtres.png');
+            background-repeat: repeat;
+            background-position: center;
+            color: #000000;
+        }
+        #top-identity-bar {
+            background-color: #880e4f;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #4a001f;
+        }
+        #client-display-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .logout-button {
+            background-color: #fff176;
+            color: #000000;
+            border: 2px solid #000000;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .main-workspace {
+            display: flex;
+            padding: 20px;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .left-panel { flex: 1.8; }
+        h2.section-main-title {
+            color: #000000;
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .filter-box-wrapper {
+            background-color: #e1bee7;
+            border: 3px solid #500b61;
+            border-radius: 24px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .filter-flex-container { display: flex; gap: 20px; align-items: center; }
+        .filter-sub-title { font-weight: bold; color: #000000; display: block; margin-bottom: 5px; }
+        .catalogue-purple-frame {
+            background-color: #e1bee7;
+            border: 3px solid #500b61;
+            border-radius: 24px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+        .medium-list-item-card {
+            background-color: #f3e5f5;
+            border: 2px solid #500b61;
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .medium-list-item-card.selected {
+            background-color: #ffffff;
+            border-color: #ff4081;
+            box-shadow: 0 0 8px rgba(255,64,129,0.4);
+        }
+        .medium-avatar-pic {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            border: 2px solid #500b61;
+            object-fit: cover;
+        }
+        .btn-action-submit {
+            background-color: #500b61;
+            color: #ffffff;
+            border: 2px solid #000000;
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0 auto;
+        }
+        .right-panel-mauve-patch {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background-color: #b34ca0;
+            border: 3px solid #500b61;
+            border-radius: 8px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+        .inner-gold-card {
+            background-color: #fff9c4;
+            border: 3px solid #500b61;
+            border-radius: 24px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        h3.inner-card-title {
+            color: #000000;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .astral-attribute-group { margin-bottom: 12px; }
+        .astral-attribute-group:last-child { margin-bottom: 0; }
+        .astral-label { font-size: 1em; font-weight: bold; color: #000000; margin-bottom: 4px; }
+        .astral-value-box { display: flex; align-items: center; gap: 12px; padding-left: 10px; }
+        .astral-icon-frame { width: 36px; height: 36px; object-fit: contain; }
+        .astral-text-value { font-size: 1.1em; font-weight: 500; color: #000000; }
+        .color-box-indicator { width: 40px; height: 24px; border: 2px solid #000000; border-radius: 4px; }
+        .inner-history-list { max-height: 280px; overflow-y: auto; padding-right: 5px; }
+        .inner-history-list::-webkit-scrollbar { width: 8px; }
+        .inner-history-list::-webkit-scrollbar-thumb { background: #b34ca0; border-radius: 4px; }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #500b61;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .history-item:last-child { margin-bottom: 0; }
+        .history-medium-info { flex: 1; }
+        .history-medium-name { font-weight: bold; color: #000000; font-size: 1.05em; }
+        .history-medium-type { font-size: 0.9em; color: #555; font-style: italic; }
+        .history-date { font-size: 1em; font-weight: bold; color: #000000; white-space: nowrap; margin-left: 15px; }
+    </style>
+</head>
+<body>
+
+    <header id="top-identity-bar">
+        <div id="client-display-name">Chargement...</div>
+        <button class="logout-button" onclick="window.location.href='index.html'">Se déconnecter</button>
+    </header>
+
+    <div class="main-workspace">
+        <main class="left-panel">
+            <h2 class="section-main-title">Prenez rendez-vous</h2>
+            <div class="filter-box-wrapper">
+                <div class="filter-flex-container">
+                    <div>
+                        <span class="filter-sub-title">Genre du médium</span>
+                        <label><input type="radio" name="f-genre" value="TOUS" checked> Tous</label>
+                        <label><input type="radio" name="f-genre" value="H"> Homme</label>
+                        <label><input type="radio" name="f-genre" value="F"> Femme</label>
+                    </div>
+                    <div>
+                        <span class="filter-sub-title">Type</span>
+                        <label><input type="radio" name="f-type" value="TOUS" checked> Tous</label>
+                        <label><input type="radio" name="f-type" value="Spirite"> Spirite</label>
+                        <label><input type="radio" name="f-type" value="Cartomancien"> Cartomancien</label>
+                        <label><input type="radio" name="f-type" value="Astrologue"> Astrologue</label>
+                    </div>
+                    <button class="logout-button" id="trigger-filter" style="margin-left: auto;">Appliquer filtres</button>
+                </div>
+            </div>
+
+            <form id="form-rdv-execution">
+                <div class="catalogue-purple-frame" id="box-mediums-list"></div>
+                <button type="submit" class="btn-action-submit">Prendre rendez-vous</button>
+            </form>
+        </main>
+
+        <aside class="right-panel-mauve-patch">
+            <div class="inner-gold-card">
+                <h3 class="inner-card-title">Votre profil astral</h3>
+                <div id="inject-astral-fields"></div>
+            </div>
+
+            <div class="inner-gold-card">
+                <h3 class="inner-card-title">Votre historique de rendez-vous</h3>
+                <div class="inner-history-list" id="inject-history-rows"></div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: './ActionServlet',
+                method: 'GET',
+                data: { todo: 'obtenir-profil-client' },
+                dataType: 'json'
+            })
+            .done(function(info) {
+                if (info.success) {
+                    $('#client-display-name').text(info.prenom + ' ' + info.nom);
+
+                    const zodiacImg = formatZodiacFilename(info.zodiaque);
+                    const chinoisImg = formatChineseFilename(info.chinois);
+                    const totemImg = formatChineseFilename(info.animal);
+                    const htmlHexColor = translateColorToCss(info.couleur);
+
+                    const astralTemplate = `
+                        <div class="astral-attribute-group">
+                            <div class="astral-label">Signe du zodiaque</div>
+                            <div class="astral-value-box">
+                                <img class="astral-icon-frame" src="image rendu DASI/Signes astrologiques/${zodiacImg}" alt="">
+                                <span class="astral-text-value">${info.zodiaque.toLowerCase()}</span>
+                            </div>
+                        </div>
+                        <div class="astral-attribute-group">
+                            <div class="astral-label">Signe astrologique chinois</div>
+                            <div class="astral-value-box">
+                                <img class="astral-icon-frame" src="image rendu DASI/Signes astrologiques chinois/${chinoisImg}" alt="">
+                                <span class="astral-text-value">${info.chinois.toLowerCase()}</span>
+                            </div>
+                        </div>
+                        <div class="astral-attribute-group">
+                            <div class="astral-label">Couleur porte bonheur</div>
+                            <div class="astral-value-box">
+                                <div class="color-box-indicator" style="background-color: ${htmlHexColor};"></div>
+                                <span class="astral-text-value">${info.couleur.toLowerCase()}</span>
+                            </div>
+                        </div>
+                        <div class="astral-attribute-group">
+                            <div class="astral-label">Votre animal totem</div>
+                            <div class="astral-value-box">
+                                <img class="astral-icon-frame" src="image rendu DASI/Signes astrologiques chinois/${totemImg}" alt="" onerror="this.style.display='none';">
+                                <span class="astral-text-value">${info.animal.toLowerCase()}</span>
+                            </div>
+                        </div>
+                    `;
+                    $('#inject-astral-fields').html(astralTemplate);
+                    chargerHistoriqueReel();
+                }
+            });
+
+            $.ajax({
+                url: './ActionServlet',
+                method: 'GET',
+                data: { todo: 'lister-mediums' },
+                dataType: 'json'
+            })
+            .done(function(response) {
+                const list = response.Medium;
+                const container = $('#box-mediums-list').empty();
+
+                list.forEach(function(m) {
+                    let imageNom = m.nom;
+                    container.append(`
+                        <div class="medium-list-item-card" data-genre="${m.genre}" data-type="${m.type}">
+                            <input type="radio" id="m-${m.id}" name="idMedium" value="${m.id}" required>
+                            <img class="medium-avatar-pic" src="image rendu DASI/Médiums/${encodeURIComponent(imageNom)}.png" alt="">
+                            <div>
+                                <div style="font-weight:bold; font-size:1.1em;">${m.nom} - ${m.type} - ${m.genre === 'F' ? 'femme' : 'homme'}</div>
+                                <div style="font-size:0.9em; color:#444; font-style:italic; margin-top:4px;">"${m.description}"</div>
+                            </div>
+                        </div>
+                    `);
+                });
+            });
+
+            $('#box-mediums-list').on('click', '.medium-list-item-card', function() {
+                $('.medium-list-item-card').removeClass('selected');
+                $(this).addClass('selected').find('input[type="radio"]').prop('checked', true);
+            });
+
+            function chargerHistoriqueReel() {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'GET',
+                    data: { todo: 'lister-rdv-client' },
+                    dataType: 'json'
+                })
+                .done(function(response) {
+                    const consultations = response.Consultations;
+                    const container = $('#inject-history-rows').empty();
+                    
+                    if (consultations && consultations.length > 0) {
+                        consultations.forEach(function(rdv) {
+                            container.append(`
+                                <div class="history-item">
+                                    <div class="history-medium-info">
+                                        <div class="history-medium-name">${rdv.mediumNom}</div>
+                                        <div class="history-medium-type">${rdv.mediumType}</div>
+                                    </div>
+                                    <div class="history-date">${rdv.date}</div>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        container.html("<div style='text-align:center; color:#666; font-style:italic; padding-top:20px;'>Aucun rendez-vous passé</div>");
+                    }
+                });
+            }
+
+            $('#trigger-filter').on('click', function() {
+                const g = $('input[name="f-genre"]:checked').val();
+                const t = $('input[name="f-type"]:checked').val();
+                $('.medium-list-item-card').each(function() {
+                    const item = $(this);
+                    item.toggle((g === 'TOUS' || item.attr('data-genre') === g) && (t === 'TOUS' || item.attr('data-type') === t));
+                });
+            });
+
+            $('#form-rdv-execution').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: { todo: 'creer-rdv', idMedium: $('input[name="idMedium"]:checked').val() },
+                    dataType: 'json'
+                })
+                .done(function(res) {
+                    alert(res.success ? "Votre demande de consultation a bien été enregistrée !" : "Désolé, aucun employé disponible.");
+                    if(res.success) window.location.reload();
+                });
+            });
+
+            function formatZodiacFilename(str) {
+                if (!str) return "inconnu.png";
+                let s = str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                switch (s) {
+                    case "belier":      return "belier.png";
+                    case "taureau":     return "taureau.png";
+                    case "gemeaux":
+                    case "gemeau":      return "gemeaux.png";
+                    case "cancer":      return "cancer.png";
+                    case "lion":        return "lion.png";
+                    case "vierge":      return "vierge.png";
+                    case "balance":     return "balance.png";
+                    case "scorpion":    return "scorpion.png";
+                    case "sagittaire":  return "sagittaire.png";
+                    case "capricorne":  return "capricorne.png";
+                    case "cpricorne":   return "cpricorne.png";
+                    case "verseau":     return "verseau.png";
+                    case "poissons":
+                    case "poisson":     return "poissons.png";
+                    default:            return s + ".png";
+                }
+            }
+
+            function formatChineseFilename(str) {
+                if (!str) return "inconnu.png";
+                let s = str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                switch (s) {
+                    case "rat":                     return "rat.png";
+                    case "boeuf":
+                    case "bauf":
+                    case "buffle":                  return "boeuf.png";
+                    case "tigre":                   return "tigre.png";
+                    case "lapin":
+                    case "lievre":
+                    case "chat":                    return "chat.png";
+                    case "dragon":                  return "dragon.png";
+                    case "serpent":                 return "serpent.png";
+                    case "cheval":                  return "cheval.png";
+                    case "chevre":
+                    case "bouc":
+                    case "mouton":                  return "chevre.png";
+                    case "singe":                   return "singe.png";
+                    case "coq":                     return "coq.png";
+                    case "chien":                   return "chien.png";
+                    case "cochon":
+                    case "porc":                    return "cochon.png";
+                    default:                        return s + ".png";
+                }
+            }
+
+            function translateColorToCss(color) {
+                if (!color) return "#000000";
+                let c = color.toLowerCase().trim();
+                if (c.includes("rouge"))  return "#f44336";
+                if (c.includes("bleu"))   return "#2196f3";
+                if (c.includes("vert"))   return "#4caf50";
+                if (c.includes("jaune"))  return "#ffeb3b";
+                if (c.includes("rose"))   return "#e91e63";
+                if (c.includes("violet")) return "#9c27b0";
+                if (c.includes("orange")) return "#ff9800";
+                if (c.includes("blanc"))  return "#ffffff";
+                if (c.includes("noir"))   return "#000000";
+                return "#333333";
+            }
+        });
+    </script>
+</body>
+</html>

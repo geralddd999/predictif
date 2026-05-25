@@ -46,8 +46,8 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        if (request.getServletPath().equals("/faire-une-demande")) {
-            request.getRequestDispatcher("faire-une-demande.html").forward(request, response);
+        if (request.getServletPath().equals("/client-home-page")) {
+            request.getRequestDispatcher("client-home-page.html").forward(request, response);
             return;
         }
         
@@ -95,7 +95,7 @@ public class ActionServlet extends HttpServlet {
                 new LogoutAction().execute(request);
                 new LogoutSerialisation().appliquer(request, response);
                 break;
-
+            }
             case "lister-mediums": {
                 Action action = new AfficherListeMedium();
                 action.execute(request); 
@@ -122,6 +122,15 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             
+            case "lister-rdv-client": {
+                Action action = new ListerRDVClientAction();
+                action.execute(request);
+                
+                Serialisation serialisation = new ListerRDVClientSerialisation();
+                serialisation.appliquer(request, response);
+                break;
+            }
+            
             default: {
                 System.out.println("Invalid request received: " + todo);
                 break;
@@ -143,25 +152,6 @@ public class ActionServlet extends HttpServlet {
     
     
     
-//    @Override
-//    public void init() throws ServletException {
-//        // 1. Initialisation de la persistence (EMFactory)
-//        JpaUtil.creerFabriquePersistance();
-//
-////        // 2. Appel des services d'initialisation des données
-////        Service service = new Service();
-////
-////        // Remplit la base avec les médiums (Serena, Mme Irma, etc.)
-////        service.initialiserMediums(); 
-////
-////        // Remplit la base avec les employés de test
-////        service.initialiserEmploye(); 
-//    }
-//
-//@Override
-//public void destroy() {
-//    JpaUtil.fermerFabriquePersistance(); 
-//}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

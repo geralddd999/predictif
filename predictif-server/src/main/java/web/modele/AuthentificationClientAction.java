@@ -34,7 +34,7 @@ public class AuthentificationClientAction extends Action {
         
         if(c != null){
             HttpSession session = req.getSession();
-            session.setAttribute("user", c);
+            session.setAttribute("client", c);
             session.setAttribute("user_type", "client");
             success = true;
         }else{

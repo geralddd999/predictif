@@ -11,11 +11,8 @@ public class CreerRDVAction extends Action {
     @Override
     public void execute(HttpServletRequest req) {
         HttpSession session = req.getSession();
-        
         Client client = (Client) session.getAttribute("client");
-        
         String idMediumStr = req.getParameter("idMedium");
-        
         boolean succes = false;
         
         if (client != null && idMediumStr != null) {
@@ -38,7 +35,6 @@ public class CreerRDVAction extends Action {
                 succes = service.creationRDV(mediumChoisi, client);
             }
         }
-        
         req.setAttribute("rdvSuccess", succes);
     }
 }
