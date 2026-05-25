@@ -473,6 +473,7 @@ async function submitComment(comment, errorEl) {
 
     document.getElementById('finish-popup')?.remove();
     initPage();
+    window.location.href = '/predictif-server/statistiques-agence.html';
   } catch (e) {
     console.error('Failed to submit comment', e);
     if (errorEl) errorEl.style.display = '';
