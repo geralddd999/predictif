@@ -1,7 +1,8 @@
 let currentIndex = 0;
 let totalSlides = 0;
 const VISIBLE_SLIDES = 3;
-const SLIDE_STEP_PX = 230 + 24; // slide width + gap (must match CSS)
+const SLIDE_STEP_PX = 230 + 24; 
+
 const AUTOPLAY_MS = 4000;
 let autoplayTimer = null;
 
@@ -25,12 +26,13 @@ function initPage() {
 
 async function fetchMediums() {
     try {
-        const response = await fetch('/ActionServlet?todo=list-mediums');
+        const response = await fetch('/predictif-server/ActionServlet?todo=lister-mediums');
         const data = await response.json();
+        const mediums = data.Medium ?? [];
         const container = document.getElementById("medium-carousel-container");
-        container.innerHTML = ''; // placeholder
-        data.forEach((medium) => container.appendChild(createMediumSlide(medium)));
-        totalSlides = data.length;
+        container.innerHTML = '';
+        mediums.forEach((medium) => container.appendChild(createMediumSlide(medium)));
+        totalSlides = mediums.length;
 
         updateCarousel();
         startAutoplay();
@@ -48,15 +50,15 @@ function createMediumSlide(medium) {
     content.className = 'slide-content';
 
     const img = document.createElement('img');
-    img.src = medium.image || ''; // TODO: hook up once API exposes image URLs
-    img.alt = medium.name || '';
+    img.src = '/predictif-server/img/mediums/' + encodeURIComponent(medium.nom) + '.png';
+    img.alt = medium.nom || '';
     img.onerror = () => { img.style.visibility = 'hidden'; };
 
     const caption = document.createElement('div');
     caption.className = 'slide-caption';
 
     const title = document.createElement('h3');
-    title.textContent = medium.name;
+    title.textContent = medium.nom;
 
     const desc = document.createElement('p');
     desc.textContent = medium.description;

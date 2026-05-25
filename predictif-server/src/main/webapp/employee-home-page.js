@@ -1,5 +1,44 @@
 let pageData = null;
 
+const FRENCH_COLORS = {
+  'rouge':            '#e53935',
+  'rouge bordeaux':   '#7b1a2e',
+  'bordeaux':         '#7b1a2e',
+  'rose':             '#f06292',
+  'rose fuchsia':     '#e91e8c',
+  'orange':           '#fb8c00',
+  'jaune':            '#fdd835',
+  'jaune doré':       '#f9a825',
+  'or':               '#ffc107',
+  'doré':             '#ffc107',
+  'vert':             '#43a047',
+  'vert émeraude':    '#00897b',
+  'vert forêt':       '#2e7d32',
+  'vert clair':       '#76c442',
+  'bleu':             '#1e88e5',
+  'bleu roi':         '#4169e1',
+  'bleu marine':      '#0d1b6e',
+  'bleu clair':       '#64b5f6',
+  'bleu turquoise':   '#00bcd4',
+  'turquoise':        '#00bcd4',
+  'cyan':             '#00bcd4',
+  'indigo':           '#3949ab',
+  'violet':           '#8e24aa',
+  'violet clair':     '#ce93d8',
+  'lavande':          '#9575cd',
+  'mauve':            '#ab47bc',
+  'argent':           '#9e9e9e',
+  'gris':             '#757575',
+  'gris clair':       '#bdbdbd',
+  'blanc':            '#f5f5f5',
+  'noir':             '#212121',
+  'marron':           '#6d4c41',
+  'beige':            '#d7ccc8',
+  'ocre':             '#cc7722',
+  'corail':           '#ff7043',
+  'saumon':           '#ef9a9a',
+};
+
 function setPageTitle(text) {
   let el = document.getElementById('page-title');
   if (!el) {
@@ -157,6 +196,10 @@ function buildAstralRow(label, value, imgSrc) {
   return row;
 }
 
+function frenchColorToCss(name) {
+  return FRENCH_COLORS[name.toLowerCase().trim()] ?? '#9e9e9e';
+}
+
 function buildColorRow(color) {
   const row = document.createElement('div');
   row.className = 'astral-row';
@@ -168,7 +211,7 @@ function buildColorRow(color) {
   const swatch = document.createElement('span');
   swatch.id = 'color-swatch';
   swatch.className = 'color-swatch';
-  swatch.style.background = color;
+  swatch.style.background = frenchColorToCss(color);
 
   const val = document.createElement('span');
   val.className = 'astral-value';
