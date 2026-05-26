@@ -1,33 +1,30 @@
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\CreerRDVAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\test\DemandeTest.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\ObtenirProfilClientAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\LogoutAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\Serialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\AddCommentToRDVAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\CloseRDVAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\ConsultEmployeeSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\controleur\ActionServlet.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\ListerRDVClientAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\Action.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\AfficherListeMedium.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\test\ServiceTest.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\ConsultEmployeeRDV.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\ProfilClientSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\MediumsSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\AuthentificationEmployeAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\GetPredictionsAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\AuthentificationSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\CreerRDVSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\AuthentificationClientAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\ListerRDVClientSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\OperationStatusSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\PredictionsSerialisation.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\modele\StartRDVAction.java
-C:\Users\ilamkharbe\Desktop\pre\predictif\predictif-server\src\main\java\web\vue\LogoutSerialisation.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\controleur\ActionServlet.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\modele\Action.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\vue\Serialisation.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\modele\ChargerStatistiquesAction.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\modele\InscrirClientAction.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\vue\InscreptionClientSerilisation.java
-C:\Users\bbelkho\Desktop\TP INSTRUCTIF\predictif\predictif-server\src\main\java\web\vue\StatistiquesSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\MediumsSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\ListerRDVClientAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\test\ServiceTest.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\StartRDVAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\OperationStatusSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\test\DemandeTest.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\ListerRDVClientSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\PredictionsSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\GetPredictionsAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\AuthentificationSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\InscrirClientAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\StatistiquesSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\AfficherListeMedium.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\LogoutAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\CreerRDVSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\ObtenirProfilClientAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\LogoutSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\CreerRDVAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\InscreptionClientSerilisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\AuthentificationClientAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\ProfilClientSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\Action.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\CloseRDVAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\ChargerStatistiquesAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\controleur\ActionServlet.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\ConsultEmployeeSerialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\vue\Serialisation.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\ConsultEmployeeRDV.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\AddCommentToRDVAction.java
+C:\Users\ilamkharbe\Desktop\ldpedped\predictif\predictif-server\src\main\java\web\modele\AuthentificationEmployeAction.java

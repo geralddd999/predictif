@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package web.controleur;
 
 import dao.JpaUtil;
@@ -105,36 +101,36 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             case "lister-mediums": {
-                Action action = new AfficherListeMedium();
+                action = new AfficherListeMedium();
                 action.execute(request); 
 
-                Serialisation serialisation = new MediumsSerialisation();
+                serialisation = new MediumsSerialisation();
                 serialisation.appliquer(request, response);
                 break;
             }
             case "obtenir-profil-client": {
-                Action action = new ObtenirProfilClientAction();
+                action = new ObtenirProfilClientAction();
                 action.execute(request);
 
-                Serialisation serialisation = new ProfilClientSerialisation();
+                serialisation = new ProfilClientSerialisation();
                 serialisation.appliquer(request, response);
                 break;
             }
             
             case "creer-rdv": {
-                Action action = new CreerRDVAction();
+                action = new CreerRDVAction();
                 action.execute(request);
 
-                Serialisation serialisation = new CreerRDVSerialisation();
+                serialisation = new CreerRDVSerialisation();
                 serialisation.appliquer(request, response);
                 break;
             }
             
             case "lister-rdv-client": {
-                Action action = new ListerRDVClientAction();
+                action = new ListerRDVClientAction();
                 action.execute(request);
                 
-                Serialisation serialisation = new ListerRDVClientSerialisation();
+                serialisation = new ListerRDVClientSerialisation();
                 serialisation.appliquer(request, response);
                 break;
             }
@@ -142,6 +138,9 @@ public class ActionServlet extends HttpServlet {
             case"inscrire-client" :
                 action = new InscrirClientAction ();
                 serialisation = new InscreptionClientSerilisation();
+                
+                action.execute(request);
+                serialisation.appliquer(request, response);
                 break;
                 
             case "charger-statistiques" : {
@@ -195,21 +194,6 @@ public class ActionServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    @Override
-    public void init() throws ServletException {
-        
-       
-        super.init();
-         JpaUtil.creerFabriquePersistance();
-    }
-
-
-    @Override
-    public void destroy() {
-       
-        JpaUtil.fermerFabriquePersistance();
-        super.destroy();
-    }
 
    
     
