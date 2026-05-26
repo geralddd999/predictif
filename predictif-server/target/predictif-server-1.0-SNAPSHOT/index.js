@@ -11,8 +11,9 @@ function initPage() {
     document.getElementById("login_btn").addEventListener('click', () => {
         window.location.href = "login.html";
     });
+
     document.getElementById("register_btn").addEventListener('click', () => {
-        window.location.href = "register.html";
+        window.location.href = "inscriptionClient.html";
     });
 
     document.getElementById('prev-btn').addEventListener('click', () => moveCarousel(-1));
@@ -21,6 +22,7 @@ function initPage() {
     const carousel = document.getElementById('carousel');
     carousel.addEventListener('mouseenter', stopAutoplay);
     carousel.addEventListener('mouseleave', startAutoplay);
+
     fetchMediums();
 }
 
