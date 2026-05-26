@@ -24,3 +24,10 @@ web\vue\PredictionsSerialisation.class
 web\modele\CloseRDVAction.class
 web\test\ServiceTest.class
 web\vue\CreerRDVSerialisation.class
+web\controleur\ActionServlet.class
+web\modele\Action.class
+web\modele\ChargerStatistiquesAction.class
+web\modele\InscrirClientAction.class
+web\vue\InscreptionClientSerilisation.class
+web\vue\StatistiquesSerialisation.class
+web\vue\Serialisation.class

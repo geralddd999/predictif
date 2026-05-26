@@ -27,6 +27,12 @@ import web.vue.PredictionsSerialisation;
 import metier.service.Service;
 import web.modele.*;
 import web.vue.*;
+import web.modele.Action;
+import web.modele.ChargerStatistiquesAction;
+import web.modele.InscrirClientAction;
+import web.vue.InscreptionClientSerilisation;
+import web.vue.Serialisation;
+import web.vue.StatistiquesSerialisation;
 /**
  *
  * @author gschambiram
@@ -53,7 +59,9 @@ public class ActionServlet extends HttpServlet {
         
         String todo = request.getParameter("todo");
         
-        System.out.println(todo);
+        Action action = null ;
+        Serialisation serialisation = null ; 
+        
         switch(todo){
             
             case "authenticate-client" : {
@@ -131,9 +139,22 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             
+            case"inscrire-client" :
+                action = new InscrirClientAction ();
+                serialisation = new InscreptionClientSerilisation();
+                break;
+                
+            case "charger-statistiques" : {
+                action = new ChargerStatistiquesAction();
+                serialisation = new StatistiquesSerialisation();
+
+                action.execute(request);
+                serialisation.appliquer(request, response);
+                break;
+            }
+
             default: {
                 System.out.println("Invalid request received: " + todo);
-                break;
             }
         }
     }
@@ -161,34 +182,37 @@ public class ActionServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    public void init() throws ServletException {
+        
+       
+        super.init();
+         JpaUtil.creerFabriquePersistance();
+    }
+
+
+    @Override
+    public void destroy() {
+       
+        JpaUtil.fermerFabriquePersistance();
+        super.destroy();
+    }
+
+   
+    
+    
 
 }

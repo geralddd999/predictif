@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Statistiques de l'agence - PREDICT'IF</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- ECharts local file -->
+        <script src="./js/echarts_v6.0.0.min.js"></script>
+
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background-image: url("images/fond-fenetres.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                padding: 25px;
+            }
+
+            .page {
+                max-width: 1200px;
+                margin: auto;
+                background: rgba(255, 214, 93, 0.92);
+                border: 4px solid #8d4bc4;
+                border-radius: 28px;
+                padding: 28px;
+                box-shadow: 0 12px 35px rgba(94, 41, 120, 0.35);
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 25px;
+            }
+
+            .logo {
+                width: 75px;
+                height: auto;
+            }
+
+            h1 {
+                color: #8d2fb3;
+                margin: 8px 0;
+                font-size: 32px;
+            }
+
+            .subtitle {
+                color: #5e2871;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 22px;
+            }
+
+            .card {
+                background: #f8c4ff;
+                border: 3px solid #8d4bc4;
+                border-radius: 22px;
+                padding: 18px;
+                min-height: 330px;
+                box-shadow: 0 6px 14px rgba(94, 41, 120, 0.18);
+            }
+
+            .card h2 {
+                margin-top: 0;
+                color: #5e2871;
+                text-align: center;
+                font-size: 20px;
+            }
+
+            #map {
+                height: 250px;
+                width: 100%;
+                border-radius: 18px;
+                border: 2px solid #8d4bc4;
+                overflow: hidden;
+            }
+
+            .chart {
+                width: 100%;
+                height: 250px;
+            }
+
+            .summary {
+                color: #4b2358;
+                font-weight: bold;
+                margin-bottom: 12px;
+                text-align: center;
+                font-size: 13px;
+            }
+
+            .empty-message {
+                text-align: center;
+                color: #5e2871;
+                font-weight: bold;
+                margin-top: 80px;
+            }
+
+            .actions {
+                margin-top: 25px;
+                text-align: center;
+            }
+
+            button {
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                background: #b832c9;
+                color: white;
+                font-weight: bold;
+                font-size: 15px;
+                cursor: pointer;
+                box-shadow: 0 5px 12px rgba(120, 25, 145, 0.25);
+            }
+
+            button:hover {
+                background: #9425a8;
+            }
+
+            #message {
+                text-align: center;
+                color: crimson;
+                font-weight: bold;
+                margin-top: 15px;
+            }
+
+            @media (max-width: 850px) {
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                body {
+                    padding: 12px;
+                }
+
+                .page {
+                    padding: 20px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="header">
+                <img class="logo" src="images/icone-boule-cristal.png" alt="Logo PREDICT'IF">
+                <h1>Statistiques de l'agence</h1>
+                <p class="subtitle">Visualisation des clients, médiums et consultations</p>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="card">
+                    <h2>Répartition géographique des clients</h2>
+                    <div id="geo-summary" class="summary">Chargement...</div>
+                    <div id="map"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Nombre de consultations par médium</h2>
+                    <div id="chart-consultations-mediums" class="chart"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Top 5 des médiums choisis</h2>
+                    <div id="chart-top-mediums" class="chart"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Évolution des consultations par jour</h2>
+                    <div id="chart-stats-jours" class="chart"></div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" onclick="window.location.href='preparation-rdv-employe.html'">
+                    Accéder à mon rendez-vous
+                </button>
+            </div>
+
+            <p id="message"></p>
+        </div>
+
+        <script>
+            let googleMapInstance = null;
+            let statistiquesData = null;
+
+            function initMap() {
+                googleMapInstance = new google.maps.Map(document.getElementById("map"), {
+                    center: {lat: 45.7640, lng: 4.8357},
+                    zoom: 11
+                });
+
+                chargerStatistiques();
+            }
+
+            async function chargerStatistiques() {
+                let url = "./ActionServlet?todo=charger-statistiques";
+
+                statistiquesData = await fetch(url)
+                    .then(function (response) {
+                        if (!response.ok) {
+                            throw "HTTP Error " + response.status;
+                        }
+                        return response.json();
+                    })
+                    .catch(function (error) {
+                        console.log("[AJAX ERROR]", error);
+                        return null;
+                    });
+
+                console.log("Statistiques reçues :", statistiquesData);
+
+                if (!statistiquesData || statistiquesData.success !== true) {
+                    document.getElementById("message").textContent =
+                        "Erreur lors du chargement des statistiques.";
+                    return;
+                }
+
+                afficherClientsSurCarte(statistiquesData.clients || []);
+                afficherConsultationsParMedium(statistiquesData.consultationsParMedium || []);
+                afficherTop5Mediums(statistiquesData.top5Mediums || []);
+                afficherStats7Jours(statistiquesData.stats7Jours || []);
+            }
+
+            function afficherClientsSurCarte(clients) {
+                let summary = document.getElementById("geo-summary");
+
+                let clientsAvecAdresse = clients.filter(function (client) {
+                    return client.adressePostale && client.adressePostale.trim() !== "";
+                });
+
+                let clientsAvecCoords = clientsAvecAdresse.filter(function (client) {
+                    return client.hasCoords === true;
+                });
+
+                let clientsSansAdresse = clients.length - clientsAvecAdresse.length;
+                let clientsSansCoords = clientsAvecAdresse.length - clientsAvecCoords.length;
+
+                summary.innerHTML =
+                    "Total clients : " + clients.length +
+                    " | Avec adresse : " + clientsAvecAdresse.length +
+                    " | Avec coordonnées : " + clientsAvecCoords.length +
+                    " | Sans adresse : " + clientsSansAdresse +
+                    " | Adresse non localisée : " + clientsSansCoords;
+
+                if (clientsAvecCoords.length === 0) {
+                    return;
+                }
+
+                let infowindow = new google.maps.InfoWindow();
+                let bounds = new google.maps.LatLngBounds();
+
+                for (let i = 0; i < clientsAvecCoords.length; i++) {
+                    let client = clientsAvecCoords[i];
+
+                    let position = {
+                        lat: client.latitude,
+                        lng: client.longitude
+                    };
+
+                    let marker = new google.maps.Marker({
+                        map: googleMapInstance,
+                        position: position,
+                        title: client.prenom + " " + client.nom
+                    });
+
+                    bounds.extend(position);
+
+                    marker.addListener("click", function () {
+                        let html =
+                            "<div>" +
+                            "<strong>" + client.prenom + " " + client.nom + "</strong><br>" +
+                            client.adressePostale +
+                            "</div>";
+
+                        infowindow.setContent(html);
+                        infowindow.open(googleMapInstance, marker);
+                    });
+                }
+
+                googleMapInstance.fitBounds(bounds);
+            }
+
+            function afficherConsultationsParMedium(data) {
+                let container = document.getElementById("chart-consultations-mediums");
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = "<p class='empty-message'>Aucune consultation disponible.</p>";
+                    return;
+                }
+
+                let graphData = [["Médium", "Consultations"]];
+
+                for (let item of data) {
+                    graphData.push([item.nom, item.consultations]);
+                }
+
+                buildBarChart(
+                    "chart-consultations-mediums",
+                    graphData,
+                    "Consultations par médium"
+                );
+            }
+
+            function afficherTop5Mediums(data) {
+                let container = document.getElementById("chart-top-mediums");
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = "<p class='empty-message'>Aucun médium dans le Top 5.</p>";
+                    return;
+                }
+
+                let graphData = [];
+
+                for (let item of data) {
+                    graphData.push({
+                        name: item.nom,
+                        value: item.consultations
+                    });
+                }
+
+                buildPieChart(
+                    "chart-top-mediums",
+                    graphData,
+                    "Top 5 médiums"
+                );
+            }
+
+            function afficherStats7Jours(data) {
+                let container = document.getElementById("chart-stats-jours");
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = "<p class='empty-message'>Aucune statistique disponible.</p>";
+                    return;
+                }
+
+                let graphData = [["Date", "Consultations"]];
+
+                for (let item of data) {
+                    graphData.push([item.date, item.consultations]);
+                }
+
+                buildLineChart(
+                    "chart-stats-jours",
+                    graphData,
+                    "Consultations sur 7 jours"
+                );
+            }
+
+            function buildBarChart(containerId, graphData, graphTitle) {
+                let chart = echarts.init(document.getElementById(containerId));
+
+                let options = {
+                    title: {
+                        text: graphTitle,
+                        left: "center"
+                    },
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    dataset: {
+                        source: graphData
+                    },
+                    xAxis: {
+                        type: "category",
+                        axisLabel: {
+                            rotate: 25
+                        }
+                    },
+                    yAxis: {
+                        type: "value",
+                        minInterval: 1
+                    },
+                    series: [
+                        {
+                            type: "bar"
+                        }
+                    ]
+                };
+
+                chart.setOption(options);
+            }
+
+            function buildPieChart(containerId, graphData, graphTitle) {
+                let chart = echarts.init(document.getElementById(containerId));
+
+                let options = {
+                    title: {
+                        text: graphTitle,
+                        left: "center"
+                    },
+                    tooltip: {
+                        trigger: "item"
+                    },
+                    legend: {
+                        bottom: 0
+                    },
+                    series: [
+                        {
+                            type: "pie",
+                            radius: ["35%", "65%"],
+                            data: graphData
+                        }
+                    ]
+                };
+
+                chart.setOption(options);
+            }
+
+            function buildLineChart(containerId, graphData, graphTitle) {
+                let chart = echarts.init(document.getElementById(containerId));
+
+                let options = {
+                    title: {
+                        text: graphTitle,
+                        left: "center"
+                    },
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    dataset: {
+                        source: graphData
+                    },
+                    xAxis: {
+                        type: "category",
+                        axisLabel: {
+                            rotate: 25
+                        }
+                    },
+                    yAxis: {
+                        type: "value",
+                        minInterval: 1
+                    },
+                    series: [
+                        {
+                            type: "line",
+                            smooth: true
+                        }
+                    ]
+                };
+
+                chart.setOption(options);
+            }
+        </script>
+
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhf3JleYpal9S-xouJYH8lf7Dvz5Y2Nko&callback=initMap">
+        </script>
+    </body>
+</html>

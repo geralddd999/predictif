@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Inscription Client - PREDICT'IF</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background-image: url("images/Fond-fenêtres.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .page {
+                width: 100%;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 30px;
+                background: rgba(255, 200, 90, 0.15);
+            }
+
+            .card {
+                width: 100%;
+                max-width: 620px;
+                background: rgba(255, 214, 93, 0.92);
+                border: 4px solid #8d4bc4;
+                border-radius: 28px;
+                padding: 28px 34px;
+                box-shadow: 0 12px 35px rgba(94, 41, 120, 0.35);
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .logo {
+                width: 70px;
+                height: auto;
+                margin-bottom: 5px;
+            }
+
+            h1 {
+                margin: 5px 0;
+                color: #8d2fb3;
+                font-size: 32px;
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                margin: 0;
+                color: #653178;
+                font-weight: bold;
+            }
+
+            .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px 18px;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-group.full {
+                grid-column: 1 / 3;
+            }
+
+            label {
+                color: #5e2871;
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            input, select {
+                border: 2px solid #b44ccf;
+                border-radius: 14px;
+                padding: 10px 12px;
+                font-size: 14px;
+                outline: none;
+                background: #fff7ff;
+            }
+
+            input:focus, select:focus {
+                border-color: #7b2db2;
+                box-shadow: 0 0 0 3px rgba(141, 75, 196, 0.18);
+            }
+
+            .actions {
+                display: flex;
+                justify-content: center;
+                gap: 14px;
+                margin-top: 24px;
+            }
+
+            button {
+                border: none;
+                border-radius: 20px;
+                padding: 11px 34px;
+                font-weight: bold;
+                font-size: 15px;
+                cursor: pointer;
+            }
+
+            #bouton-inscription {
+                background: #b832c9;
+                color: white;
+                box-shadow: 0 5px 12px rgba(120, 25, 145, 0.25);
+            }
+
+            #bouton-inscription:hover {
+                background: #9425a8;
+            }
+
+            .secondary-btn {
+                background: #fff0ff;
+                color: #6b2d83;
+                border: 2px solid #b44ccf;
+            }
+
+            .secondary-btn:hover {
+                background: #f8d8ff;
+            }
+
+            #message {
+                margin-top: 18px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .success {
+                color: green;
+            }
+
+            .error {
+                color: crimson;
+            }
+
+            @media (max-width: 650px) {
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .form-group.full {
+                    grid-column: 1;
+                }
+
+                .card {
+                    padding: 24px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="card">
+                <div class="header">
+                    <img class="logo" src="images/icone_boule_cristal.png" alt="Logo PREDICT'IF">
+                    <h1>PREDICT'IF</h1>
+                    <p class="subtitle">Inscription Client</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="champ-nom">Nom *</label>
+                        <input type="text" id="champ-nom" placeholder="Votre nom">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-prenom">Prénom *</label>
+                        <input type="text" id="champ-prenom" placeholder="Votre prénom">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-genre">Genre *</label>
+                        <select id="champ-genre">
+                            <option value="">-- Choisir --</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-date-naissance">Date de naissance *</label>
+                        <input type="date" id="champ-date-naissance">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-num-tel">Téléphone *</label>
+                        <input type="text" id="champ-num-tel" placeholder="06 00 00 00 00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-mail">Email *</label>
+                        <input type="email" id="champ-mail" placeholder="exemple@mail.com">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="champ-adresse">Adresse *</label>
+                        <input type="text" id="champ-adresse" placeholder="Numéro et rue">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-code-postal">Code postal *</label>
+                        <input type="text" id="champ-code-postal" maxlength="5" placeholder="69000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-ville">Ville *</label>
+                        <input type="text" id="champ-ville" placeholder="Lyon">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-pays">Pays *</label>
+                        <input type="text" id="champ-pays" placeholder="France">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="champ-mot-de-passe">Mot de passe *</label>
+                        <input type="password" id="champ-mot-de-passe" placeholder="Votre mot de passe">
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="secondary-btn" type="button" onclick="window.location.href='index.html'">
+                        Annuler
+                    </button>
+
+                    <button id="bouton-inscription" type="button">
+                        Valider
+                    </button>
+                </div>
+
+                <p id="message"></p>
+            </div>
+        </div>
+
+        <script>
+            function initPage() {
+                document.getElementById("bouton-inscription").addEventListener("click", inscrireClient);
+            }
+
+            async function inscrireClient() {
+                let nom = document.getElementById("champ-nom").value.trim();
+                let prenom = document.getElementById("champ-prenom").value.trim();
+                let genre = document.getElementById("champ-genre").value;
+                let dateNaissance = document.getElementById("champ-date-naissance").value;
+                let numTel = document.getElementById("champ-num-tel").value.trim();
+                let adresse = document.getElementById("champ-adresse").value.trim();
+                let codePostal = document.getElementById("champ-code-postal").value.trim();
+                let ville = document.getElementById("champ-ville").value.trim();
+                let pays = document.getElementById("champ-pays").value.trim();
+                let mail = document.getElementById("champ-mail").value.trim();
+                let motDePasse = document.getElementById("champ-mot-de-passe").value;
+
+                let message = document.getElementById("message");
+                message.className = "";
+                message.textContent = "";
+
+                if (
+                    nom === "" || prenom === "" || genre === "" ||
+                    dateNaissance === "" || numTel === "" ||
+                    adresse === "" || codePostal === "" ||
+                    ville === "" || pays === "" ||
+                    mail === "" || motDePasse === ""
+                ) {
+                    message.textContent = "Tous les champs sont obligatoires.";
+                    message.className = "error";
+                    return;
+                }
+
+                if (codePostal.length !== 5) {
+                    message.textContent = "Le code postal doit contenir 5 caractères.";
+                    message.className = "error";
+                    return;
+                }
+
+                let params = {
+                    todo: "inscrire-client",
+                    nom: nom,
+                    prenom: prenom,
+                    genre: genre,
+                    dateNaissance: dateNaissance,
+                    numTel: numTel,
+                    adresse: adresse,
+                    codePostal: codePostal,
+                    ville: ville,
+                    pays: pays,
+                    mail: mail,
+                    motDePasse: motDePasse
+                };
+
+                let url = "./ActionServlet?" + new URLSearchParams(params);
+
+                let jsonResponse = await fetch(url)
+                    .then(function (httpResponse) {
+                        if (!httpResponse.ok) {
+                            throw "HTTP Error " + httpResponse.status;
+                        }
+                        return httpResponse.json();
+                    })
+                    .catch(function (error) {
+                        console.log("[AJAX ERROR]", error);
+                        return null;
+                    });
+
+                if (jsonResponse) {
+                    if (jsonResponse.success === true) {
+                        message.textContent = "Inscription réussie.";
+                        message.className = "success";
+
+                        // Later when connexion.html exists:
+                        // window.location.href = "connexion.html";
+                    } else {
+                        message.textContent = jsonResponse.message || "Erreur lors de l'inscription.";
+                        message.className = "error";
+                    }
+                } else {
+                    message.textContent = "Erreur de communication avec le serveur.";
+                    message.className = "error";
+                }
+            }
+
+            window.onload = initPage;
+        </script>
+    </body>
+</html>
