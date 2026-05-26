@@ -33,7 +33,7 @@ import web.vue.StatistiquesSerialisation;
  *
  * @author gschambiram
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/ActionServlet", "/faire-une-demande"})
+@WebServlet(name = "ActionServlet", urlPatterns = {"/ActionServlet"})
 public class ActionServlet extends HttpServlet {
 
     /**
@@ -48,10 +48,10 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        if (request.getServletPath().equals("/client-home-page")) {
+        /*if (request.getServletPath().equals("/client-home-page")) {
             request.getRequestDispatcher("client-home-page.html").forward(request, response);
             return;
-        }
+        }*/
         
         String todo = request.getParameter("todo");
         

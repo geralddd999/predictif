@@ -89,11 +89,14 @@ public class StatistiquesSerialisation extends Serialisation {
                 if (coordonneesClients != null && coordonneesClients.containsKey(client.getId())) {
                     double[] coords = coordonneesClients.get(client.getId());
 
-                    if (coords != null && coords.length == 2) {
-                        latitude = coords[1];
-                        longitude = coords[0];
-                        hasCoords = true;
-                    }
+                   if (coords != null && coords.length == 2) {
+                       latitude = coords[1];
+                       longitude = coords[0];
+
+                       if (!(latitude == 0.0 && longitude == 0.0)) {
+                             hasCoords = true;
+                       }
+                   }
                 }
 
                 clientsArray.add(Json.createObjectBuilder()
