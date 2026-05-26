@@ -30,6 +30,8 @@ public class GetPredictionsAction extends Action {
       req.setAttribute("operation_allowed", true);
 
       var e = (Employe) session.getAttribute("user");
+      e = service.trouverEmployeParId(e.getId());
+      session.setAttribute("user", e);
       RDV r = e.getOpenRDV();
       if(r == null){
         return;

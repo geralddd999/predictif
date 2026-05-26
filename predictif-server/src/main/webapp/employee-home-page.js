@@ -419,7 +419,7 @@ async function fetchSuggestions() {
       + new URLSearchParams({ love, health, work });
     const res = await fetch(url);
     const data = await res.json();
-
+    console.log(data);
     if (!data || !data.operation_allowed || !data.predictions?.length) {
       if (placeholder) placeholder.textContent = "Impossible d'obtenir les conseils.";
       return;

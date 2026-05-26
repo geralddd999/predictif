@@ -115,9 +115,9 @@ public class Predictif {
             System.out.println("Aucune donnée pour les 7 derniers jours ou erreur de récupération.");
         }
         
-        List<Medium> lm = ic.listerMedium();
-        Boolean cRDV = ic.creationRDV(lm.getFirst(), c3);
-        System.out.println("Reussite creation RDV : "+cRDV);
+        //List<Medium> lm = ic.listerMedium();
+        //Boolean cRDV = ic.creationRDV(lm.getFirst(), c3);
+        //System.out.println("Reussite creation RDV : "+cRDV);
         
         JpaUtil.fermerFabriquePersistance();
     }
